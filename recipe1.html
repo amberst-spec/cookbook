@@ -1243,24 +1243,26 @@
         
         function runSearch() { alert(translations[currentLangCode].alertSearch); }
 
-        // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+            <!-- Подключаем внешние облачные библиотеки Google Firebase (веб-версия) -->
+    <script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
-  authDomain: "amberst-cookbook.firebaseapp.com",
-  projectId: "amberst-cookbook",
-  storageBucket: "amberst-cookbook.firebasestorage.app",
-  messagingSenderId: "945091832932",
-  appId: "1:945091832932:web:344718c74a543d8d958371"
-};
+    <script>
+        // 🌐 УМНОЕ ПОДКЛЮЧЕНИЕ ОБЛАКА С АВТО-ЗАЩИТОЙ КЛЮЧА
+        const firebaseConfig = {
+            apiKey: "${{ secrets.FIREBASE_API_KEY }}", // Робот сам возьмет ключ из нашего сейфа!
+            authDomain: "://firebaseapp.com",
+            projectId: "amberst-cookbook",
+            storageBucket: "amberst-cookbook.firebasestorage.app",
+            messagingSenderId: "945091832932",
+            appId: "1:945091832932:web:344718c74a543d8d958371"
+        };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
+        // Запуск шпионского облачного движка
+        if (typeof firebase !== 'undefined') {
+            firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+        }
 
     </script>
 </body>
