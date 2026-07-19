@@ -1249,26 +1249,7 @@
         
         function runSearch() { alert(translations[currentLangCode].alertSearch); }
 
-            <!-- Подключаем внешние облачные библиотеки Google Firebase (веб-версия) -->
-    <script src="https://gstatic.com"></script>
-    <script src="https://gstatic.com"></script>
-
-    <script>
-        // 🌐 УМНОЕ ПОДКЛЮЧЕНИЕ ОБЛАКА С АВТО-ЗАЩИТОЙ КЛЮЧА
-        const firebaseConfig = {
-            apiKey: "${{ secrets.FIREBASE_API_KEY }}", // Робот сам возьмет ключ из нашего сейфа!
-            authDomain: "://firebaseapp.com",
-            projectId: "amberst-cookbook",
-            storageBucket: "amberst-cookbook.firebasestorage.app",
-            messagingSenderId: "945091832932",
-            appId: "1:945091832932:web:344718c74a543d8d958371"
-        };
-
-        // Запуск шпионского облачного движка
-        if (typeof firebase !== 'undefined') {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
-        }
+    
 
     </script>
 </body>
