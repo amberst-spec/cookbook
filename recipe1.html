@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная книга рецептов</title>
+
+    <style>
+
+                @font-face {
+            font-family: 'Caveat';
+            src: local('Caveat'), local('Caveat Regular'), local('Caveat-Regular'), local('Caveat-Bold');
+        }
+
+        body {
+            background-color: #FFF6EE; /* Наш уютный кремовый фон */
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #332211; 
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+            background: #FFFFFF; 
+            padding: 12px 25px;
+            border-radius: 30px;
+            box-shadow: 0 4px 10px rgba(160, 82, 45, 0.04); 
+        }
+        /* Стильная белая плашка переключателя языков */
+        .lang-switcher {
+            font-weight: bold;
+            background: #FFF;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 2px solid #EAD5C3;
+            cursor: pointer;
+            color: #A0522D;
+        }
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .main-title {
+            font-size: 32px;
+            color: #A0522D; 
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+        /* Большое фото титульной страницы по вашим размерам */
+        .cover-image {
+            width: 92%;
+            max-width: 760px;
+            height: auto;
+            max-height: 350px;
+            object-fit: cover;
+            margin: 15px auto 25px auto;
+            border-radius: 28px;
+            box-shadow: 0 12px 30px rgba(160, 82, 45, 0.12);
+            display: block;
+        }
+        /* Описание на белом фоне вашей картинки */
+        .book-description {
+            font-size: 18px;
+            max-width: 650px;
+            margin: 0 auto 35px auto;
+            line-height: 1.6;
+            color: #554433;
+            padding: 0 15px;
+        }
+        /* Сетка для красивых клавиш подкастов */
+        .categories-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 40px;
+            padding: 0 10px;
+        }
+        /* Интерактивные кнопки с эффектом нажатия */
+        .category-card {
+            background: linear-gradient(135deg, #FF9E66, #FF7A33);
+            padding: 18px 35px;
+            border-radius: 50px;
+            box-shadow: 0 6px 15px rgba(255, 122, 51, 0.3), inset 0 -4px 0 rgba(0,0,0,0.15);
+            font-size: 18px;
+            font-weight: bold;
+            color: #FFFFFF;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            border: none;
+        }
+        .category-card:hover {
+            background: linear-gradient(135deg, #FFAE7A, #FF8B47);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 122, 51, 0.4), inset 0 -4px 0 rgba(0,0,0,0.15);
+        }
+        .category-card:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 5px rgba(255, 122, 51, 0.2);
+        }
+        .footer-copyright {
+            margin-top: 50px; 
+            padding: 20px; 
+            font-size: 14px; 
+            color: #A0522D; 
+            border-top: 1px solid #EAD5C3;
+         }
+
+         /* Крупный, яркий декор для полей ПК и ноутбуков */
+        .decor-left, .decor-right {
+            display: none;
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: -1; /* Уходит на задний план, под текст */
+            opacity: 0.85; /* Красивая сочная яркость */
+            pointer-events: none;
+            animation: fadeInDecor 0.8s ease-in-out forwards;
+        }
+        @keyframes fadeInDecor {
+            from { opacity: 0; }
+            to { opacity: 0.85; }
+        }
+
+                /* Крупный, яркий декор для полей ПК и ноутбуков */
+        .decor-left, .decor-right {
+            display: none;
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: -1; /* Сами картинки кофе и кекса остаются на заднем плане под текстом */
+            opacity: 0.85; /* Красивая сочная яркость */
+            pointer-events: none;
+            animation: fadeInDecor 0.8s ease-in-out forwards;
+        }
+        @keyframes fadeInDecor {
+            from { opacity: 0; }
+            to { opacity: 0.85; }
+        }
+        </style>
+
+ 
+
+        <!-- Независимые крупные розовые сердечки вокруг кексика (показываются всегда!) -->
+        <div style="position: fixed; right: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;">
+            <!-- Левое верхнее сердечко возле кекса -->
+            <span style="position: fixed; right: 440px; top: 40%; font-size: 35px; opacity: 0.85;">💕</span>
+            <!-- Левое нижнее сердечко возле кекса -->
+            <span style="position: fixed; right: 460px; top: 60%; font-size: 28px; opacity: 0.75;">💖</span>
+            <!-- Правое верхнее сердечко возле кекса -->
+            <span style="position: fixed; right: 110px; top: 45%; font-size: 32px; opacity: 0.85;">💕</span>
+        </div>
+        <style>
+
+
+         /* Крупный, яркий декор для полей ПК и ноутбуков */
+        .decor-left, .decor-right {
+            display: none;
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: -1; /* Уходит на задний план, под текст */
+            opacity: 0.85; /* Картинки кофе и кекса остаются сочными */
+            pointer-events: none;
+            animation: fadeInDecor 0.8s ease-in-out forwards;
+        }
+        @keyframes fadeInDecor {
+            from { opacity: 0; }
+            to { opacity: 0.85; }
+        }
+        /* Точная настройка положения картинок и приглушенного узора на весь экран */
+        @media (min-width: 768px) {
+            .decor-left {
+                display: block;
+                left: 85px; 
+                width: 420px; 
+                filter: drop-shadow(-10px 10px 15px rgba(139, 69, 19, 0.12));
+            }
+            .decor-right {
+                display: block;
+                right: 150px; 
+                width: 320px; 
+                filter: drop-shadow(10px 10px 15px rgba(139, 69, 19, 0.1));
+            }
+            /* Создаем скрытый слой для узора, чтобы сделать его бледным и нежным */
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -2; /* Уходит еще глубже, под кофе и кекс */
+                background-image: url("pattern.png");
+                background-position: center center;
+                background-repeat: no-repeat;
+                background-size: cover;
+                opacity: 0.15; /* Делаем фон бледным и нежным, чтобы он не слепил глаза */
+                pointer-events: none;
+            }
+        }
+</style>
+</head>
+ 
+
+<body>
+
+        <div class="header">
+        <div style="display: flex; align-items: center;">
+            <div id="text-menu" style="font-weight: bold; color: #A0522D;">📖 Меню</div>
+
+            <!-- Интерактивная рабочая поисковая строка Еленочки -->
+            <div class="search-container" style="display: flex; align-items: center; background: #FFF6EE; border: 1px solid #EAD5C3; border-radius: 20px; padding: 2px 10px; margin-left: 15px;">
+                <input type="text" id="search-field" style="border: none; background: transparent; padding: 6px; font-size: 14px; color: #332211; outline: none; width: 160px;" placeholder="Поиск рецептов...">
+                <button onclick="runSearch()" style="background: transparent; border: none; cursor: pointer; font-size: 16px;">🔍</button>
+            </div>
+        </div>
+
+                <!-- Красивая кнопка "Поделиться" со значком пекаря для гостей книги Еленочки -->
+                        <button id="text-share-btn" onclick="shareRecipeBook()" 
+
+                style="background: linear-gradient(135deg, #FFF, #FFF6EE); 
+                       border: 2px solid #EAD5C3; 
+                       color: #A0522D; 
+                       padding: 6px 14px; 
+                       font-size: 13px; 
+                       font-weight: bold; 
+                       border-radius: 18px; 
+                       cursor: pointer; 
+                       box-shadow: 0 4px 10px rgba(160, 82, 45, 0.05); 
+                       display: flex; 
+                       align-items: center; 
+                       gap: 6px; 
+                       font-family: sans-serif; 
+                       margin: 0 15px; 
+                       transition: all 0.2s ease;" 
+                onmouseover="this.style.background='#FFF6EE'; this.style.transform='scale(1.02)'" 
+                onmouseout="this.style.background='#FFF'; this.style.transform='scale(1)'">
+                            👩‍🍳 Поделиться рецептом 🔍
+
+        </button>
+
+        <div id="lang-btn" class="lang-switcher">EN | UKR | RU</div>
+    </div>
+
+            <!-- Скрытая кнопка добавления рецептов только для Еленочки (Админка) -->
+        <button id="admin-add-recipe-btn" style="display: none; background: linear-gradient(135deg, #FF9E66, #FF7A33); color: #FFF; border: none; padding: 8px 18px; font-size: 14px; font-weight: bold; border-radius: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 122, 51, 0.2); transition: all 0.2s ease; margin: 0 15px; font-family: sans-serif;" onmouseover="this.style.transform='scale(1.03)'" onmouseout="this.style.transform='scale(1)'">
+            + Добавить рецепт
+        </button>
+
+
+    <div class="main-container">
+
+                <!-- Ваши скачанные картинки на левом и правом полях ПК -->
+        <img src="left.png" class="decor-left" alt="Декор слева">
+        <img src="right.png" class="decor-right" alt="Декор справа">
+
+        
+        <!-- Основное название страницы -->
+        <h1 class="main-title" id="text-title">Интерактивная книга рецептов:</h1>
+        
+        <!-- Название на строчку ниже -->
+        <div style="font-size: 24px; color: #D2691E; font-weight: bold; margin-bottom: 20px;" id="text-subtitle">
+            Умная кухня с таймером
+        </div>
+
+        <!-- Фотография обложки, растянутая по вашим параметрам -->
+        <img src="cover.jpg" alt="Обложка" class="cover-image">
+
+        <!-- Сочное описание, режим чистые руки и интуитивный кулинарный формат -->
+        <p class="book-description" id="text-desc">
+            <strong>🧼 Режим «Чистые руки». Встроенный таймер.</strong><br>
+            «Интуитивный кулинарный формат. Выбирайте количество порций, запускайте таймеры и отмечайте шаги прямо на странице рецепта».
+        </p>
+
+                <!-- Финальная сочная радуга Еленочки: шире, выше и левее -->
+        <div style="width: 360px; height: 110px; overflow: hidden; position: relative; margin: -445px 95px 335px auto; z-index: 15; opacity: 0.6; pointer-events: none;">
+            <svg viewBox="0 0 200 100" width="100%" height="100%">
+                <!-- Максимально раскрыли дугу в ширину, чтобы буквам было свободно -->
+                <path id="rainbowPath" d="M 5,75 A 95,55 0 0,1 195,75" fill="none" />
+                <text font-family="'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="bold" fill="#8B4513" text-anchor="middle">
+                    <textPath href="#rainbowPath" startOffset="50%" id="text-watermark">
+                        ✨ От Еленочки с любовью ✨
+                    </textPath>
+                </text>
+            </svg>
+        </div>
+       
+        <!-- Сместили надпись левее и выше по вашему запросу -->
+        <p style="font-family: 'Caveat', cursive; color: #8B4513; font-size: 28px; text-align: center; line-height: 1.2; max-width: 290px; margin: -355px 125px 235px auto; padding: 0 10px; position: relative; z-index: 10;" id="text-wish">
+            ✨ Желаем вам вдохновения на кухне и приятного аппетита!
+        </p>
+
+        <!-- Красивые клавиши разделов — теперь вместе с мерами веса! -->
+        <div class="categories-grid">
+
+                        <button class="category-card" id="cat-1" onclick="createNewRecipePage()">🍰 Выпечка</button>
+            <button class="category-card" id="cat-2" onclick="createNewRecipePage()">🥣 Основные блюда</button>
+            <button class="category-card" id="cat-3" onclick="createNewRecipePage()">🥗 Салаты</button>
+
+
+                                    <!-- Стильная кнопка-пуговка мер веса Еленочки -->
+                                                <!-- Стильная кнопка-пуговка мер веса Еленочки с автопроверкой языка -->
+            <button id="btn-measures" onclick="if(typeof renderMeasuresTable === 'function'){ renderMeasuresTable(currentLangCode); } document.getElementById('measuresModal').style.display='flex'" style="background: linear-gradient(135deg, #FFF, #FFF6EE); border: 2px solid #EAD5C3; width: 54px; height: 54px; border-radius: 50%; font-size: 20px; color: #A0522D; cursor: pointer; box-shadow: 0 4px 10px rgba(160, 82, 45, 0.1); display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; padding: 0; border: 2px solid #EAD5C3;">
+                <span>🥄</span>
+            </button>
+
+                        <!-- Мелкая шпионская пуговка "+ Рецепт" Еленочки (Админка) -->
+            <button id="admin-add-recipe-btn" 
+                    style="display: flex; visibility: hidden; width: 0; height: 54px; opacity: 0; background: linear-gradient(135deg, #FF9E66, #FF7A33); border: none; border-radius: 50%; font-size: 22px; color: #FFF; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 122, 51, 0.2); align-items: center; justify-content: center; transition: all 0.3s ease; padding: 0; margin: 0; font-family: sans-serif; font-weight: bold; overflow: hidden;" 
+                    onmouseover="this.style.transform='scale(1.08)'" 
+                    onmouseout="this.style.transform='scale(1)'">
+                <span>+</span>
+            </button>
+
+            <!-- Мелкая шпионская пуговка "📝 Предложения" Еленочки (Админка) -->
+            <button id="admin-suggest-btn" 
+                    onclick="openSuggestModal()" 
+                    style="display: flex; visibility: hidden; width: 0; height: 54px; opacity: 0; background: linear-gradient(135deg, #FFF, #FFF6EE); border: 2px solid #EAD5C3; border-radius: 50%; font-size: 19px; color: #A0522D; cursor: pointer; box-shadow: 0 4px 10px rgba(160, 82, 45, 0.15); align-items: center; justify-content: center; transition: all 0.3s ease; padding: 0; margin: 0; overflow: hidden;" 
+                    onmouseover="this.style.transform='scale(1.08)'" 
+                    onmouseout="this.style.transform='scale(1)'">
+                <span>📝</span>
+            </button>
+
+        </div>
+
+        <!-- Права автора в самом низу -->
+        <div id="text-copyright" class="footer-copyright">
+            © 2026 Интерактивная книга рецептов. Создано с любовью и заботой.
+        </div>
+    </div>
+
+    <script>
+
+                // Полная универсальная база переводов Еленочки с гостевым окном бланка
+        const translations = {
+            ru: {
+                menu: "📖 Меню", title: "Интерактивная книга рецептов:", subtitle: "Умная кухня с таймером",
+                desc: "<strong>🧼 Режим «Чистые руки». Встроенный таймер.</strong><br>«Интуитивный кулинарный формат. Включайте режим „Чистые руки“ — и экран телефона не погаснет во время готовки! Выбирайте количество порций, запускайте встроенные таймеры и отмечайте шаги прямо на странице рецепта».",
+                "cat-1": "🍰 Выпечка", "cat-2": "🥣 Основные блюда", "cat-3": "🥗 Салаты", copyright: "© 2026 Интерактивная книга рецептов. Создано с любовью и заботой.",
+                searchPlaceholder: "Поиск рецептов...", alertMsg: "Этот кулинарный раздел находится в процессе наполнения вкусными рецептами Еленочки! Загляните чуточку позже 🌸", alertSearch: "Рецепт не найден. Попробуйте ввести 'чебурек'!",
+                modalTitle: "🥄 Таблица мер и весов", thIng: "Продукт", thGlass: "Стакан", thSpoon: "Ст. ложка", thTsp: "Ч. ложка",
+                "share-btn": "👩‍🍳 Поделиться рецептом 🔍",
+                
+                // Переводы для гостевого окна бланка Еленочки:
+                guestModalTitle: "📝 Поделиться Любимым рецептом 🥰",
+                guestNamePlace: "Ваше имя",
+                guestTitlePlace: "Название вашего блюда",
+                guestTextPlace: "Впишите сюда ингредиенты и подробные шаги вашего рецепта...",
+                guestSendBtn: "Отправить 🌸",
+
+                // Золотой запас для будущих страниц рецептов:
+                cleanHands: "🧼 Режим «Чистые руки» (Экран не гаснет)",
+                ingredientsTitle: "📋 Список ингредиентов (Чек-лист):",
+                stepsTitle: "👩‍🍳 Пошаговое приготовление:",
+                timerBtn: "⏱️ Запустить таймер",
+                timerReady: "⏳ Готово! 🔔",
+                coffeeTitle: "На кулинарное вдохновение ☕"
+            },
+            ukr: {
+                menu: "📖 Меню", title: "Інтерактивна книга рецептів:", subtitle: "Розумна кухня з таймером",
+                desc: "<strong>🧼 Режим «Чистые руки». Вбудований таймер.</strong><br>«Інтуїтивний кулінарний формат. Вмикайте режим „Чисті руки“ — и екран телефону не згасне під час готування! Вибирайте кількість порцій, запускайте вбудовані таймери та відзначайте кроки прямо на сторінці рецепта».",
+                "cat-1": "🍰 Випічка", "cat-2": "🥣 Основні страви", "cat-3": "🥗 Салати", copyright: "© 2026 Интерактивная книга рецептов. Створено з любов'ю та турботою.",
+                searchPlaceholder: "Пошук рецептів...", alertMsg: "Цей кулінарний розділ знаходиться в процесі наповнення смачними рецептами Оленочки! Завітайте трохи пізніше 🌸", alertSearch: "Рецепт не знайдено. Спробуйте ввести 'чебурек'!",
+                modalTitle: "🥄 Таблиця мір і ваги", thIng: "Продукт", thGlass: "Склянка", thSpoon: "Ст. ложка", thTsp: "Ч. ложка",
+                "share-btn": "👩‍🍳 Поділитися рецептом 🔍",
+                
+                // Переводы для гостевого окна бланка Еленочки:
+                guestModalTitle: "📝 Поділитися Улюбленим рецептом 🥰",
+                guestNamePlace: "Ваше ім'я",
+                guestTitlePlace: "Назва вашої страви",
+                guestTextPlace: "Впишіть сюди інгредієнти та детальні кроки вашого рецепту...",
+                guestSendBtn: "Надіслати 🌸",
+
+                // Золотой запас для будущих страниц рецептов:
+                cleanHands: "🧼 Режим «Чисті руки» (Екран не згасає)",
+                ingredientsTitle: "📋 Список інгредієнтів (Чек-лист):",
+                stepsTitle: "👩‍🍳 Покрокове приготування:",
+                timerBtn: "⏱️ Запустити таймер",
+                timerReady: "⏳ Готово! 🔔",
+                coffeeTitle: "На кулінарне натхнення ☕"
+            },
+            en: {
+                menu: "📖 Menu", title: "Interactive Cookbook:", subtitle: "Smart Kitchen with Timer",
+                desc: "<strong>🧼 'Clean Hands' Mode. Built-in Timer.</strong><br>'Intuitive cooking format. Turn on the \"Clean Hands\" mode — and your phone screen won't go dark while cooking! Choose the number of servings, start built-in timers, and check off steps right on the recipe page.'",
+                "cat-1": "🍰 Baking", "cat-2": "🥣 Savoury", "cat-3": "🥗 Salads", copyright: "© 2026 Interactive Cookbook. Made with love and care.",
+                searchPlaceholder: "Search recipes...", alertMsg: "This culinary section is in the process of being filled with Helen's delicious recipes! Check back a bit later 🌸", alertSearch: "Recipe not found. Try entering 'cheburek'!",
+                modalTitle: "🥄 Weights & Measures Table", thIng: "Product", thGlass: "Glass", thSpoon: "Tbsp", thTsp: "Tsp",
+                "share-btn": "👩‍🍳 Share recipe 🔍",
+                
+                // Переводы для гостевого окна бланка Еленочки:
+                guestModalTitle: "📝 Share Your Favorite Recipe 🥰",
+                guestNamePlace: "Your name",
+                guestTitlePlace: "Name of your dish",
+                guestTextPlace: "Enter ingredients and detailed steps of your recipe here...",
+                guestSendBtn: "Send 🌸",
+
+                // Золотой запас для будущих страниц рецептов:
+                cleanHands: "🧼 'Clean Hands' Mode (Screen stays on)",
+                ingredientsTitle: "📋 Ingredients List (Checklist):",
+                stepsTitle: "👩‍🍳 Step-by-Step Cooking:",
+                timerBtn: "⏱️ Start Timer",
+                timerReady: "⏳ Ready! 🔔",
+                coffeeTitle: "For culinary inspiration ☕"
+            }
+        };
+
+  
+        const wishTranslations = {
+            ru: "✨ Желаем Вам вдохновения на кухне и приятного аппетита!",
+            ukr: "✨ Бажаємо Вам натхнення на кухні та приємного апетиту!",
+            en: "✨ Wishing you inspiration in the kitchen and bon appétit!"
+        };
+
+        const watermarkTranslations = {
+            ru: "✨ От Еленочки с любовью ✨",
+            ukr: "✨ Від Оленочки з любов'ю ✨",
+            en: "✨ From Helen with love ✨"
+        };
+
+        let currentLangCode = 'ru';
+
+        // Универсальный умный переводчик Еленочки под ключ!
+        function changeLanguage(lang) {
+            currentLangCode = lang;
+            
+            // 1. Автоматически переводим ВСЕ обычные текстовые элементы на странице
+            document.querySelectorAll('[id^="text-"], [id^="cat-"], #lang-btn').forEach(element => {
+                let key = element.id;
+                if (element.id.startsWith('text-')) {
+                    key = element.id.replace('text-', '');
+                }
+                
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.id === 'text-desc') {
+                        element.innerHTML = translations[lang][key];
+                    } else {
+                        element.innerText = translations[lang][key];
+                    }
+                }
+            });
+
+ 
+    // 2. Автоматически переводим строку поиска, если она есть на странице
+    let searchFieldEl = document.getElementById('search-field');
+    if (searchFieldEl && translations[lang].searchPlaceholder) {
+        searchFieldEl.placeholder = translations[lang].searchPlaceholder;
+    }
+
+        // Динамический перевод подсказок гостевого окна бланка Еленочки
+    let gName = document.getElementById('guestNameInput');
+    if (gName && translations[lang].guestNamePlace) gName.placeholder = translations[lang].guestNamePlace;
+    let gTitle = document.getElementById('guestTitleInput');
+    if (gTitle && translations[lang].guestTitlePlace) gTitle.placeholder = translations[lang].guestTitlePlace;
+    let gText = document.getElementById('guestRecipeTextInput');
+    if (gText && translations[lang].guestTextPlace) gText.placeholder = translations[lang].guestTextPlace;
+
+    
+    // 3. Динамический перевод заголовков и шапки нашей таблицы мер веса
+    let modalTitleEl = document.querySelector('#measuresModal h3');
+    if (modalTitleEl && translations[lang].modalTitle) modalTitleEl.innerText = translations[lang].modalTitle;
+    
+    if (document.getElementById('th-ing')) document.getElementById('th-ing').innerText = translations[lang].thIng;
+    if (document.getElementById('th-glass')) document.getElementById('th-glass').innerText = translations[lang].thGlass;
+    if (document.getElementById('th-spoon')) document.getElementById('th-spoon').innerText = translations[lang].thSpoon;
+    if (document.getElementById('th-tsp')) document.getElementById('th-tsp').innerText = translations[lang].thTsp;
+
+    // 4. Запускаем автоматическое наполнение таблицы граммов на нужном языке
+    if (typeof renderMeasuresTable === 'function') {
+        renderMeasuresTable(lang);
+    }
+    
+    // 5. Переводим парящие надписи обложки
+    let wishEl = document.getElementById('text-wish');
+    if (wishEl && wishTranslations[lang]) wishEl.innerText = wishTranslations[lang];
+    
+    let watermarkEl = document.getElementById('text-watermark');
+    if (watermarkEl && watermarkTranslations[lang]) watermarkEl.textContent = watermarkTranslations[lang];
+    
+    localStorage.setItem('selectedLanguage', lang);
+}
+         
+         document.getElementById('lang-btn').addEventListener('click', function() {
+            let currentLang = this.innerText.trim();
+            if (currentLang === "EN | UKR | RU" || currentLang === "RU") {
+                this.innerText = "UKR"; changeLanguage('ukr');
+            } else if (currentLang === "UKR") {
+                this.innerText = "EN"; changeLanguage('en');
+            } else {
+                this.innerText = "RU"; changeLanguage('ru');
+            }
+        });
+
+        function alertNotice() {
+            alert(translations[currentLangCode].alertMsg);
+        }
+
+        function runSearch() {
+            let query = document.getElementById('search-field').value.toLowerCase().trim();
+            if (query === "") return;
+            alert(translations[currentLangCode].alertSearch);
+        }
+
+        document.getElementById('search-field').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') runSearch();
+        });
+
+                document.getElementById('cat-1').addEventListener('click', alertNotice);
+        document.getElementById('cat-2').addEventListener('click', alertNotice);
+        document.getElementById('cat-3').addEventListener('click', alertNotice);
+
+
+        // Умная кулинарная база продуктов Еленочки с солонкой 🧂
+        const ingredientsData = {
+            ru: [
+                { name: "🌾 Мука", glass: "160 г", spoon: "30 г", tsp: "10 г" },
+                { name: "🍬 Сахар", glass: "200 г", spoon: "25 г", tsp: "8 г" },
+                { name: "🧂 Соль", glass: "320 г", spoon: "30 г", tsp: "10 г" },
+                { name: "🌻 Масло", glass: "230 г", spoon: "17 г", tsp: "5 г" },
+                { name: "💧 Вода", glass: "250 г", spoon: "18 г", tsp: "5 г" }
+            ],
+            ukr: [
+                { name: "🌾 Борошно", glass: "160 г", spoon: "30 г", tsp: "10 г" },
+                { name: "🍬 Цукор", glass: "200 г", spoon: "25 г", tsp: "8 г" },
+                { name: "🧂 Сіль", glass: "320 г", spoon: "30 г", tsp: "10 г" },
+                { name: "🌻 Олія", glass: "230 г", spoon: "17 г", tsp: "5 г" },
+                { name: "💧 Вода", glass: "250 г", spoon: "18 г", tsp: "5 г" }
+            ],
+            en: [
+                { name: "🌾 Flour", glass: "160 g", spoon: "30 g", tsp: "10 g" },
+                { name: "🍬 Sugar", glass: "200 g", spoon: "25 g", tsp: "8 g" },
+                { name: "🧂 Salt", glass: "320 g", spoon: "30 g", tsp: "10 g" },
+                { name: "🌻 Oil", glass: "230 g", spoon: "17 g", tsp: "5 g" },
+                { name: "💧 Water", glass: "250 g", spoon: "18 g", tsp: "5 g" }
+            ]
+        };
+
+       // Функция автоматического наполнения строчек таблицы граммами
+         function renderMeasuresTable(lang) {
+            let html = "";
+            if (ingredientsData[lang]) {
+                ingredientsData[lang].forEach(item => {
+                    html += `<tr style="border-bottom: 1px solid #FFF6EE;">
+                        <td style="padding: 10px;"><strong>${item.name}</strong></td>
+                        <td style="padding: 10px;">${item.glass}</td>
+                        <td style="padding: 10px;">${item.spoon}</td>
+                        <td style="padding: 10px;">${item.tsp}</td>
+                    </tr>`;
+                });
+            }
+            let tableBody = document.getElementById('table-body-content');
+            if (tableBody) tableBody.innerHTML = html;
+        }
+
+        // Автоматический запуск таблицы на русском языке при первом открытии сайта
+        
+
+        // Функция открытия секретного окна Еленочки при нажатии на кофейное сердечко
+        function openAdminLogin() {
+            if (document.getElementById('adminLogin')) document.getElementById('adminLogin').value = '';
+            if (document.getElementById('adminPassword')) document.getElementById('adminPassword').value = '';
+            let authModal = document.getElementById('adminAuthModal');
+            if (authModal) authModal.style.display = 'flex';
+        }
+
+        // Функция проверки пароля и логина Еленочки
+        function checkAdminCredentials() {
+            let loginInp = document.getElementById('adminLogin');
+            let passInp = document.getElementById('adminPassword');
+            
+            if (loginInp && passInp) {
+                // Впишите ваш НАСТОЯЩИЙ логин вместо 'Еленочка' и ваш НАСТОЯЩИЙ пароль вместо '1234'
+                if (loginInp.value === 'moylogyn' && passInp.value === '12345') {
+                    alert('Доступ разрешен! Приветствуем, Хозяйка! 🌸');
+
+                                        // Раскрываем личный кабинет Еленочки с кнопками-смайликами
+                    let helenPanel = document.getElementById('helenAdminPanel');
+                    if (helenPanel) {
+                        helenPanel.style.display = 'block';
+                    }
+
+
+                 } else {
+                    alert('Доступ закрыт! Неправильный логин или пароль. 🛑');
+                }
+            }
+        }
+
+        // Секретная функция с проверкой привязанного E-mail Еленочки
+        function sendPasswordReminder() {
+            // Запрашиваем у пользователя почту через красивое окошко браузера
+            let userEmail = prompt("Введите привязанный E-mail для восстановления доступа:");
+            
+            // Если пользователь нажал "Отмена" или ничего не ввёл, просто закрываем
+            if (!userEmail) return;
+            
+            // Секретный ящик хозяйки, спрятанный в коде
+            let trueMail = 'avender59' + '@' + 'gmail.com';
+            
+            // Проверяем, совпадает ли то, что ввели, с вашим ящиком
+                        if (userEmail.trim().toLowerCase() === trueMail) {
+
+                alert("E-mail подтвержден! Открываем безопасную отправку напоминания... 🌸");
+                
+                let subject = encodeURIComponent('Напоминание пароля для Админки Еленочки');
+                let body = encodeURIComponent('Здравствуйте, Елена! Доступ подтвержден. Логин для входа в вашу интерактивную книгу: Еленочка');
+                
+                // Скрытый запуск почтовой программы
+                window.location.href = 'mailto:' + trueMail + '?subject=' + subject + '&body=' + body;
+            } else {
+                // Если ввели чужую почту — вежливо отказываем
+                alert("Ошибка! Этот E-mail не привязан к админке сайта. Доступ заблокирован. 🛑");
+            }
+        }
+
+
+        // Функция открытия просторного гостевого окна бланка Еленочки
+        function shareRecipeBook() {
+            let guestModal = document.getElementById('guestSuggestModal');
+            if (guestModal) guestModal.style.display = 'flex';
+        }
+
+        // Функция бесшумной отправки рецепта гостя на вашу почту helen.amberst@gmail.com
+        function sendRecipeToHelen() {
+            let name = document.getElementById('guestNameInput').value.trim();
+            let title = document.getElementById('guestTitleInput').value.trim();
+            let text = document.getElementById('guestRecipeTextInput').value.trim();
+
+            if (!name || !title || !text) {
+                alert("Пожалуйста, заполните все поля! 🌸");
+                return;
+            }
+
+            // Упаковываем данные гостя в скрытую от чужих глаз шпионскую почтовую ссылку
+            let emailReceiver = "helen.amberst@gmail.com";
+            let emailSubject = encodeURIComponent("Новый рецепт от " + name + ": " + title + " 👩‍🍳");
+            let emailBody = encodeURIComponent("Автор: " + name + "\nБлюдо: " + title + "\n\nРецепт от руки:\n" + text);
+
+            // Бесшумный запуск отправки без показа почты Еленочки на самом экране
+            window.location.href = "mailto:" + emailReceiver + "?subject=" + emailSubject + "&body=" + emailBody;
+
+                        // 🔒 МЕСТО ДЛЯ ПОДКЛЮЧЕНИЯ АВТОМАТИЧЕСКОЙ ОТПРАВКИ (Formspree / EmailJS) 🔒
+            // Елена, когда мы выложим книгу в интернет, мы СТЕРЁМ строчку "window.location.href" выше,
+            // и вместо неё вставим шпионский код автоматического почтового робота сюда!
+            // 🔒 КОНЕЦ МЕТКИ АВТОМАТИЧЕСКОЙ ОТПРАВКИ 🔒
+            
+            // Аккуратно прячем окошко после успешного клика
+            document.getElementById('guestSuggestModal').style.display = 'none';
+        }
+
+
+        // Постоянная шпионская привязка клика для оранжевой кнопки отправки
+        document.addEventListener("DOMContentLoaded", function() {
+            let sendBtn = document.getElementById('text-guestSendBtn');
+            if (sendBtn) {
+                sendBtn.addEventListener('click', sendRecipeToHelen);
+            }
+        });
+
+
+
+    </script>
+
+        <!-- Секретный кофейный вход Еленочки (Админка) -->
+            <!-- Секретный кофейный вход Еленочки (Админка) в идеальной точке над кексом -->
+            <span id="secret-admin-heart" style="position: fixed; right: 170px; top: 36%; font-size: 33px; opacity: 0.9; cursor: pointer; pointer-events: auto; z-index: 15;" onclick="openAdminLogin()">🤎</span>
+
+        <!-- Скрытое окно секретной авторизации Еленочки (Админка) -->
+    <div id="adminAuthModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(51, 34, 17, 0.4); z-index: 300; justify-content: center; align-items: center; padding: 10px;" onclick="document.getElementById('adminAuthModal').style.display='none'">
+        <div style="background: #FFFFFF; padding: 25px; border-radius: 28px; max-width: 320px; width: 85%; box-shadow: 0 20px 50px rgba(160, 82, 45, 0.15); border: 2px solid #EAD5C3; position: relative; text-align: center;" onclick="event.stopPropagation()">
+            <span style="position: absolute; top: 12px; right: 18px; font-size: 20px; cursor: pointer; color: #A0522D; font-weight: bold;" onclick="document.getElementById('adminAuthModal').style.display='none'">×</span>
+            <h3 style="font-size: 19px; color: #A0522D; margin: 0 0 15px 0; font-weight: bold;">🫘 Вход в кулинарную админку</h3>
+            <input type="text" id="adminLogin" placeholder="Логин" style="width: 90%; padding: 10px; margin-bottom: 12px; border: 1px solid #EAD5C3; border-radius: 15px; outline: none; font-size: 14px; color: #332211; background: #FFF6EE; text-align: center;">
+            <input type="password" id="adminPassword" placeholder="Пароль" style="width: 90%; padding: 10px; margin-bottom: 18px; border: 1px solid #EAD5C3; border-radius: 15px; outline: none; font-size: 14px; color: #332211; background: #FFF6EE; text-align: center;">
+                        <button onclick="checkAdminCredentials()" style="background: linear-gradient(135deg, #FF9E66, #FF7A33); color: #FFF; border: none; padding: 10px 30px; font-size: 15px; font-weight: bold; border-radius: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 122, 51, 0.2); width: 90%;">Войти</button>
+
+            <!-- 👑 ЛИЧНЫЙ КАБИНЕТ ЕЛЕНЫ: ТРИ КНОПКИ-СМАЙЛИКА -->
+            <div id="helenAdminPanel" style="display: none; margin-top: 20px; padding-top: 15px; border-top: 2px dashed #EAD5C3; text-align: center;">
+                <h4 style="font-size: 14px; color: #A0522D; margin: 0 0 12px 0; font-weight: bold; font-family: sans-serif;">Добавить страницу:</h4>
+                <div style="display: flex; justify-content: center; gap: 15px;">
+                    <button onclick="currentAlbumId = 1; createNewRecipePage(); document.getElementById('adminAuthModal').style.display='none';" style="background: linear-gradient(135deg, #FF9E66, #FF7A33); color: #FFF; border: none; width: 54px; height: 54px; border-radius: 50%; font-size: 22px; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 122, 51, 0.2);">🍰</button>
+                    <button onclick="currentAlbumId = 2; createNewRecipePage(); document.getElementById('adminAuthModal').style.display='none';" style="background: linear-gradient(135deg, #FF9E66, #FF7A33); color: #FFF; border: none; width: 54px; height: 54px; border-radius: 50%; font-size: 22px; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 122, 51, 0.2);">🥣</button>
+                    <button onclick="currentAlbumId = 3; createNewRecipePage(); document.getElementById('adminAuthModal').style.display='none';" style="background: linear-gradient(135deg, #FF9E66, #FF7A33); color: #FFF; border: none; width: 54px; height: 54px; border-radius: 50%; font-size: 22px; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 122, 51, 0.2);">🥗</button>
+                </div>
+            </div>
+
+
+                        <!-- Безопасное напоминание пароля (Почта скрыта в коде) -->
+            <div style="margin-top: 15px; text-align: center;">
+                <span onclick="sendPasswordReminder()" style="font-size: 12px; color: #A0522D; text-decoration: underline; opacity: 0.7; cursor: pointer; display: inline-block; font-family: sans-serif;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">Забыли пароль? / Forgot password?</span>
+            </div>
+
+        </div>
+    </div>
+
+        <!-- Просторное электронное окно-бланк для ЛЮБОГО гостя книги Еленочки (Мультиязычное) -->
+    <div id="guestSuggestModal" 
+         style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(51, 34, 17, 0.4); z-index: 350; justify-content: center; align-items: center; padding: 10px;" 
+         onclick="document.getElementById('guestSuggestModal').style.display='none'">
+        <div style="background: #FFFFFF; padding: 22px; border-radius: 28px; max-width: 400px; width: 85%; box-shadow: 0 20px 50px rgba(160, 82, 45, 0.15); border: 2px solid #EAD5C3; position: relative; text-align: center;" 
+             onclick="event.stopPropagation()">
+            <span style="position: absolute; top: 12px; right: 18px; font-size: 20px; cursor: pointer; color: #A0522D; font-weight: bold;" 
+                  onclick="document.getElementById('guestSuggestModal').style.display='none'">×</span>
+            <h3 id="text-guestModalTitle" style="font-size: 18px; color: #A0522D; margin: 0 0 15px 0; font-weight: bold;">📝 Поделиться Любимым рецептом 🥰</h3>
+            <input type="text" id="guestNameInput" placeholder="Ваше имя" style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #EAD5C3; border-radius: 12px; outline: none; font-size: 14px; color: #332211; background: #FFF6EE; text-align: center;">
+            <input type="text" id="guestTitleInput" placeholder="Название вашего блюда" style="width: 90%; padding: 10px; margin-bottom: 10px; border: 1px solid #EAD5C3; border-radius: 12px; outline: none; font-size: 14px; color: #332211; background: #FFF6EE; text-align: center;">
+            <textarea id="guestRecipeTextInput" placeholder="Впишите сюда ингредиенты и подробные шаги вашего рецепта..." style="width: 90%; height: 140px; padding: 12px; margin-bottom: 15px; border: 1px solid #EAD5C3; border-radius: 12px; outline: none; font-size: 14px; color: #332211; background: #FFF6EE; resize: vertical; font-family: sans-serif; line-height: 1.4; text-align: left;"></textarea>
+            <button id="text-guestSendBtn" style="background: linear-gradient(135deg, #FF9E66, #FF7A33); color: #FFF; border: none; padding: 11px 30px; font-size: 15px; font-weight: bold; border-radius: 20px; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 122, 51, 0.2); width: 90%;">Отправить 🌸</button>
+        </div>
+    </div>
+
+        <!-- Всплывающее окно мер и весов Еленочки — ИСПРАВЛЕННЫЙ КАРКАС -->
+    <div id="measuresModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(51, 34, 17, 0.4); z-index: 200; justify-content: center; align-items: center; padding: 10px;" onclick="document.getElementById('measuresModal').style.display='none'">
+        <div style="background: #FFFFFF; padding: 25px; border-radius: 28px; max-width: 450px; width: 90%; box-shadow: 0 20px 50px rgba(160, 82, 45, 0.15); border: 2px solid #EAD5C3; position: relative; text-align: left;" onclick="event.stopPropagation()">
+            <span style="position: absolute; top: 15px; right: 20px; font-size: 22px; cursor: pointer; color: #A0522D; font-weight: bold;" onclick="document.getElementById('measuresModal').style.display='none'">×</span>
+            <h3 style="font-size: 20px; color: #A0522D; margin: 0 0 15px 0; text-align: center; font-weight: bold;">🥄 Таблица мер и весов</h3>
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+                <thead>
+                    <tr style="background: #FFF6EE; color: #A0522D; border-bottom: 2px solid #EAD5C3;">
+                        <th id="th-ing" style="padding: 10px; text-align: left;">Продукт</th>
+                        <th id="th-glass" style="padding: 10px; text-align: left;">Стакан</th>
+                        <th id="th-spoon" style="padding: 10px; text-align: left;">Ст. ложка</th>
+                        <th id="th-tsp" style="padding: 10px; text-align: left;">Ч. ложка</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body-content">
+                    <!-- Сюда скрипт сам красиво вставит граммы на нужном языке -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <!-- ================================================================= -->
+    <!-- 👑 ЭТАЛОННАЯ НЕЖНАЯ ОСНОВА ШАБЛОНА РЕЦЕПТОВ СО СПЕЦИЯМИ           -->
+    <!-- ================================================================= -->
+        <template id="recipePageTemplate">
+
+        <!-- 1. Самый нижний кремовый слой на весь экран -->
+        <div id="interactiveRecipePage" style="display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #FFF6EE; z-index: 400; overflow-y: auto; box-sizing: border-box; padding: 20px; margin: 0; font-family: 'Segoe UI', Roboto, sans-serif;">
+            
+            <!-- 2. Второй layer: бледный и нежный узор pattern.png -->
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 402; background-image: url('pattern.png'); background-position: center center; background-repeat: no-repeat; background-size: cover; opacity: 0.15; pointer-events: none;"></div>
+
+            <!-- 3. Третий layer: ваша новая заставка с изящной журнальной нежностью (opacity: 0.45) -->
+            <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 404; background-image: url('coffee_bg.png'); background-position: center center; background-repeat: no-repeat; background-size: cover; opacity: 0.45; pointer-events: none;"></div>
+
+            <!-- 4. Верхний слой: удержания масштаба кнопочек поверх нежного фона -->
+            <div style="width: 100%; min-height: 100%; display: flex; flex-direction: column; align-items: center; box-sizing: border-box; position: relative; z-index: 410;">
+
+
+                                <!-- 🟠 ИЗЯЩНЫЙ НЕПОДВИЖНЫЙ УПРАВЛЯЮЩИЙ ЭТАЖ -->
+                <div style="position: sticky; top: 0; width: 100%; max-width: 650px; background: #FFEAD9; border: 2px solid #FFD0B3; border-radius: 24px; padding: 10px 15px; margin: 20px auto 10px auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; box-sizing: border-box; z-index: 430; box-shadow: 0 8px 25px rgba(160, 82, 45, 0.06);">
+                    
+                    <!-- 1. Изящный блок возврата и альбомного листания страниц -->
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button onclick="closeRecipePageAndGoBack()" style="background: #FF7A33; color: #FFFFFF; border: none; width: 40px; height: 40px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; box-shadow: 0 4px 8px rgba(255,122,51,0.2);" title="Назад в Меню">📖</button>
+                        <button onclick="navigateRecipePage(-1)" style="background: #FFFFFF; border: 2px solid #FFA873; color: #FF7A33; width: 36px; height: 36px; border-radius: 50%; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">◀️</button>
+                        <button onclick="navigateRecipePage(1)" style="background: #FF7A33; color: #FFFFFF; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0;">▶️</button>
+                    </div>
+                    
+                    <!-- 2. Фирменная интерактивная плашка "Чистые руки" -->
+                    <div id="recipe-hands-btn" onclick="toggleCleanHandsMode()" style="background: #FFFFFF; border: 2px solid #EAD5C3; padding: 8px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; color: #A0522D; cursor: pointer; display: flex; align-items: center; gap: 5px; font-family: sans-serif; transition: all 0.2s ease;">
+                        <span>🧼</span> <span id="text-recipeCleanHands">Режим «Чистые руки»</span>
+                    </div>
+
+                    <!-- 3. Цифровой Кулинарный Таймер-будильник со стрелочками -->
+                    <div style="display: flex; align-items: center; background: #FFFFFF; border: 2px solid #EAD5C3; padding: 4px 10px; border-radius: 20px; gap: 6px; box-sizing: border-box;">
+                        <div style="display: flex; flex-direction: column; gap: 1px;">
+                            <button onclick="changeRecipeTimerMinutes(1)" style="background: transparent; border: none; cursor: pointer; font-size: 9px; color: #FF7A33; padding: 0;">▲</button>
+                            <button onclick="changeRecipeTimerMinutes(-1)" style="background: transparent; border: none; cursor: pointer; font-size: 9px; color: #FF7A33; padding: 0;">▼</button>
+                        </div>
+                        <span id="recipe-timer-display" style="font-size: 14px; font-weight: bold; color: #332211; font-family: monospace; width: 40px; text-align: center;">00:00</span>
+                        <button id="recipe-timer-trigger" onclick="toggleRecipeTimer()" style="background: transparent; border: none; cursor: pointer; font-size: 16px; padding: 0; line-height: 1;">⏱️</button>
+                    </div>
+
+                    <!-- 4. Пуговка "Поделиться" для всех мессенджеров -->
+                    <button onclick="shareCurrentRecipePage()" style="background: linear-gradient(135deg, #FFF, #FFF6EE); border: 2px solid #EAD5C3; color: #A0522D; width: 40px; height: 40px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; box-shadow: 0 4px 8px rgba(160,82,45,0.05);" title="Поделиться рецептом">📢</button>
+
+                </div> <!-- Конец изящного управляющего этажа -->
+
+                                <!-- 👑 НАКЛАДНАЯ КРЕМОВАЯ РАМОЧКА ДЛЯ РЕЦЕПТА (БЕЗЛИМИТНАЯ ПРОКРУТКА) -->
+                <div class="recipe-scroll-box" style="width: 94%; max-width: 690px; background: #FFFDFB; margin: 15px auto 40px auto; padding: 30px 24px 30px 30px; border-radius: 28px; box-shadow: 0 15px 40px rgba(160, 82, 45, 0.05); border: 2px solid #EAD5C3; box-sizing: border-box; position: relative; z-index: 420; max-height: calc(100vh - 120px); overflow-y: auto; overflow-x: hidden; flex-shrink: 0;">
+                    
+                    <!-- 📜 СОБСТВЕННЫЙ МЯГКИЙ ШОКОЛАДНЫЙ ПОЛЗУНОК РАМОЧКИ -->
+                    <style>
+                        .recipe-scroll-box::-webkit-scrollbar { width: 8px; }
+                        .recipe-scroll-box::-webkit-scrollbar-track { background: transparent; }
+                        .recipe-scroll-box::-webkit-scrollbar-thumb { background: rgba(160, 82, 45, 0.6); border-radius: 10px; }
+                        .recipe-scroll-box::-webkit-scrollbar-thumb:hover { background: rgba(160, 82, 45, 0.8); }
+                    </style>
+
+                    <!-- ✍️ 1. Элегантное название кулинарного шедевра -->
+                    <div id="recipe-display-title" contenteditable="true" style="font-family: 'Times New Roman', Georgia, serif; font-size: 44px; color: #A0522D; font-weight: 500; margin: -15px auto 5px auto; text-align: center; line-height: 1.1; border-bottom: 2px dashed #EAD5C3; padding-bottom: 2px; outline: none; min-height: 45px; max-width: 95%; word-wrap: break-word;" placeholder="Впишите название пером... 🖋️"></div>
+
+                    <!-- 📸 2. Огромная панорамная фоторамочка вплотную к краям и пунктиру -->
+                    <div id="recipe-photo-container" onclick="triggerRecipePhotoUpload()" style="width: calc(100% + 54px); height: 315px; background: #FFF6EE; border-bottom: 2px dashed #EAD5C3; border-top: none; border-left: none; border-right: none; margin: -5px -24px 25px -30px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer;">
+                        <input type="file" id="recipe-photo-file-input" accept=".jpg, .jpeg, .png, .webp" style="display: none;">
+                        <img id="recipe-uploaded-img" src="" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                        <div id="recipe-photo-placeholder" style="text-align: center; color: #A0522D; padding: 20px;">
+                            <span style="font-size: 40px; display: block; margin-bottom: 8px;">📸</span>
+                            <span id="text-photoPlaceholder" style="font-size: 13px; font-weight: bold;">Нажмите, чтобы добавить аппетитное фото блюда 🌸</span>
+                        </div>
+                    </div>
+
+                                        <!-- 📋 3. СПИСОК ИНГРЕДИЕНТОВ С ИНТЕРАКТИВНЫМИ КНОПКАМИ-ГАЛОЧКАМИ -->
+                    <div style="margin-bottom: 30px; text-align: left; width: 100%; box-sizing: border-box;">
+                        <!-- Заголовок с калькулятором порций на одной линии -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #FFEAD9; padding-bottom: 6px; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                            <h3 id="text-recipeIngredientsTitle" style="font-size: 18px; color: #A0522D; font-weight: bold; margin: 0; font-family: sans-serif;">📋 Список ингредиентов (Чек-лист):</h3>
+                            <!-- Умная пуговка переключения порций для гостей -->
+                            <button id="recipe-portions-btn" onclick="toggleRecipePortions()" style="background: #FFF; border: 2px solid #10E387; color: #0D9E5E; padding: 4px 12px; font-size: 13px; font-weight: bold; border-radius: 15px; cursor: pointer; font-family: sans-serif; transition: all 0.2s ease;" title="Изменить количество порций">🍽️ 1 порция</button>
+                        </div>
+                        
+                        <!-- Сюда будут бесшумно добавляться наши новые интерактивные строчки -->
+                        <div id="recipe-ingredients-list-container" style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 15px; width: 100%;"></div>
+                        
+                        <!-- Кнопка добавления нового продукта -->
+                        <button onclick="addNewIngredientRowFromScreen('', '')" style="background: linear-gradient(135deg, #FFF, #FFF6EE); border: 2px solid #EAD5C3; color: #A0522D; padding: 6px 14px; font-size: 13px; font-weight: bold; border-radius: 15px; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 4px 8px rgba(160,82,45,0.03); transition: all 0.2s ease;">
+                            <span>➕</span> <span id="text-addIngredientBtn">Добавить продукт</span>
+                        </button>
+                    </div>
+
+                </div> <!-- Конец накладной рамочки -->
+            </div> <!-- Конец верхнего слоя -->
+        </div> <!-- Конец кремового экрана InteractiveRecipePage -->
+    </div> <!-- Конец основы удержания масштаба -->
+</template>
+
+<script>
+    // 🌍 1. УНИКАЛЬНЫЙ КУЛИНАРНЫЙ АРХИВ СТРАНИЦЫ-ШАБЛОНА (БЕЗ ДУБЛИКАТОВ!)
+        let recipeTemplateAlbums = {
+            1: [],
+            2: [],
+            3: []
+        };
+
+    let templateAlbumId = 1;          // Какая полка шаблона сейчас открыта
+    let templateRecipeIndex = 0;      // Номер рецепта шаблона, который мы читаем
+    let currentPortionMultiplier = 1; // Базовый множитель калькулятора порций
+
+    // 🔀 2. УНИВЕРСАЛЬНАЯ ВСЕЯДНАЯ ФУНКЦИЯ СОЗДАНИЯ СТРАНИЦЫ РЕЦЕПТА
+    function createNewRecipePage() {
+        // Проверяем, нет ли уже открытого бланка, чтобы защитить память ноутбука
+        if (document.getElementById("interactiveRecipePage")) return;
+
+        let template = document.getElementById("recipePageTemplate");
+        if (!template) return;
+
+        // Создаем безопасный контейнер-оболочку для развертывания
+        let recipeContainer = document.createElement("div");
+        recipeContainer.innerHTML = template.innerHTML;
+
+        // Извлекаем чистый готовый бланк и крепим его к телу сайта
+        let finalPage = recipeContainer.firstElementChild;
+        document.body.appendChild(finalPage);
+
+        // Сбрасываем множитель порций обратно на единицу при каждом новом открытии
+        currentPortionMultiplier = 1;
+    }
+
+    // 👈 3. ФУНКЦИЯ ПЕРЕХОДА НА ГЛАВНУЮ СТРАНИЦУ (Сворачиваем бланк рецепта)
+    function closeRecipePageAndGoBack() {
+        let recipePage = document.getElementById("interactiveRecipePage");
+        if (recipePage) {
+            recipePage.remove(); // Полностью и бесшумно убираем макет с экрана
+        }
+    }
+
+
+        </script>
+        
+</body>
+</html>
+
+
+ 
