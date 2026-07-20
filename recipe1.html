@@ -2,8 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+        <!-- 🌐 Официальные интернет-провода Google Firebase -->
     <script src="https://gstatic.com"></script>
-<script src="https://gstatic.com"></script>
+    <script src="https://gstatic.com"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -1251,7 +1252,22 @@
         
         function runSearch() { alert(translations[currentLangCode].alertSearch); }
 
-    
+                // 🌐 ЗАПУСК ВИРТУАЛЬНОЙ ПАМЯТИ GOOGLE FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
+            authDomain: "://firebaseapp.com",
+            projectId: "amberst-cookbook",
+            storageBucket: "amberst-cookbook.firebasestorage.app",
+            messagingSenderId: "945091832932",
+            appId: "1:945091832932:web:344718c74a543d8d958371"
+        };
+
+        // Включаем шпионские облачные мозги
+        if (typeof firebase !== 'undefined') {
+            firebase.initializeApp(firebaseConfig);
+            // Перенаправляем нашу оранжевую дискету со старой памяти ПК на вечное облако Google!
+            db = firebase.firestore();
+        }
 
     </script>
 </body>
