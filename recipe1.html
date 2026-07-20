@@ -1202,9 +1202,12 @@
             document.getElementById('adminAuthModal').style.display = 'flex'; 
         }
 
-        function checkAdminCredentials() {
+        function checkAdminCredentials(e) {
+    e.preventDefault();
     let inputLogin = document.getElementById('admin').value;
     let inputPassword = document.getElementById('adminPassword').value;
+    // ... весь остальной код Firebase ниже остаётся без изменений!
+
 
     // Шпионский запрос в защищённую папку Google Firebase
     db.collection("settings").get().then((querySnapshot) => {
