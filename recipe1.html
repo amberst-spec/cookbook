@@ -1274,50 +1274,7 @@
         
         function runSearch() { alert(translations[currentLangCode].alertSearch); }
 
-                // 🌐 ЗАПУСК ВИРТУАЛЬНОЙ ПАМЯТИ GOOGLE FIREBASE
-        const firebaseConfig = {
-            apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
-            authDomain: "://firebaseapp.com",
-            projectId: "amberst-cookbook",
-            storageBucket: "amberst-cookbook.firebasestorage.app",
-            messagingSenderId: "945091832932",
-            appId: "1:945091832932:web:344718c74a543d8d958371"
-        };
-
-        // Включаем шпионские облачные мозги
-        if (typeof firebase !== 'undefined') {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
-        }
-
-        // Шпионский запрос в защищённую папку Google Firebase для проверки пароля
-        function checkAdminCredentials(e) {
-            if (e) e.preventDefault();
-            let inputLogin = document.getElementById('admin').value;
-            let inputPassword = document.getElementById('adminPassword').value;
-
-            db.collection("settings").get().then((querySnapshot) => {
-                let accessGranted = false;
-                
-                querySnapshot.forEach((doc) => {
-                    let data = doc.data();
-                    if (data.admin_login === inputLogin && data.admin_password === inputPassword) {
-                        accessGranted = true;
-                    }
-                });
-
-                if (accessGranted) {
-                    alert("Доступ разрешен! 👑");
-                    isAdminModeActive = true; 
-                    document.getElementById('HelenAdminPanel').style.display = 'block';
-                } else {
-                    alert("Доступ закрыт! ⛔");
-                }
-            }).catch((error) => {
-                console.error("Ошибка сейфа: ", error);
-                alert("Ошибка связи с облаком! Проверьте интернет.");
-            });
-        }
+        
            
     </script>
 </body>
