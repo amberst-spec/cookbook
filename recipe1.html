@@ -2,14 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-        <!-- 🌐 Официальные интернет-провода Google Firebase -->
-        <script src="https://gstatic.com"></script>
-    <script src="https://gstatic.com"></script>
-
-    
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Интерактивная книга рецептов</title>
 
     <style>
@@ -28,8 +21,6 @@
             padding: 25px;
             color: #332211; 
             font-size: 18px;
-
-
         }
 
         /* Оригинальная широкая белая шапочка во всю ширину экрана */
@@ -1204,37 +1195,17 @@
             document.getElementById('adminAuthModal').style.display = 'flex'; 
         }
 
-        function checkAdminCredentials(e) {
-    e.preventDefault();
-    let inputLogin = document.getElementById('admin').value;
-    let inputPassword = document.getElementById('adminPassword').value;
-    // ... весь остальной код Firebase ниже остаётся без изменений!
+        function checkAdminCredentials() { 
+            if (document.getElementById('admin').value === 'Denys25' && document.getElementById('adminPassword').value === '3567wry16ZXC') {
 
 
-    // Шпионский запрос в защищённую папку Google Firebase
-    db.collection("settings").get().then((querySnapshot) => {
-        let accessGranted = false;
-        
-        querySnapshot.forEach((doc) => {
-            let data = doc.data();
-            if (data.admin_login === inputLogin && data.admin_password === inputPassword) {
-                accessGranted = true;
-            }
-        });
-
-        if (accessGranted) {
-            alert("Доступ разрешен! 👑");
-            isAdminModeActive = true; 
-            document.getElementById('HelenAdminPanel').style.display = 'block';
-        } else {
-            alert("Доступ закрыт! ⛔");
+                alert('Доступ разрешен! 🌸'); 
+                isAdminModeActive = true; // 👑 ВОТ ЭТА СТРОЧКА ТЕПЕРЬ ВКЛЮЧАЕТ АДМИНКУ НА ВСЕМ САЙТЕ!
+                document.getElementById('helenAdminPanel').style.display = 'block'; 
+            } else { 
+                alert('Доступ закрыт! 🛑'); 
+            } 
         }
-    }).catch((error) => {
-        console.error("Ошибка сейфа: ", error);
-        alert("Ошибка связи с облаком! Проверьте интернет.");
-    });
-}
-
         function openAdminForm(catId) {
             let customTitle = prompt("Введите название нового блюда:");
             if (customTitle) {
@@ -1274,8 +1245,7 @@
         
         function runSearch() { alert(translations[currentLangCode].alertSearch); }
 
-        
-           
+
     </script>
 </body>
 </html>
