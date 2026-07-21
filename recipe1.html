@@ -1294,6 +1294,29 @@
         });
 
         function runSearch() { alert(translations[currentLangCode].alertSearch); }
+
+                function navigateRecipePage(step) {
+            let currentAlbum = recipeAlbums[currentAlbumId];
+            if (!currentAlbum || currentAlbum.length === 0) return;
+
+            // Ищем, какой рецепт открыт сейчас
+            let currentIndex = currentAlbum.findIndex(r => r.title === document.getElementById('recipe-display-title').innerText.trim());
+            if (currentIndex === -1) currentIndex = 0;
+
+            // Считаем индекс следующего пирога или салата
+            let newIndex = currentIndex + step;
+
+            // Делаем круговое перелистывание, чтобы рецепты не кончались
+            if (newIndex < 0) newIndex = currentAlbum.length - 1;
+            if (newIndex >= currentAlbum.length) newIndex = 0;
+
+            let nextRecipe = currentAlbum[newIndex];
+            if (nextRecipe) {
+                document.getElementById('recipe-display-title').innerText = nextRecipe.title;
+                document.getElementById('recipe-display-steps').innerText = nextRecipe.text;
+            }
+        }
+
         
 
     </script>
