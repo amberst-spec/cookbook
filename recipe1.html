@@ -1215,13 +1215,18 @@
             document.getElementById('adminPassword').value = ''; 
             document.getElementById('adminAuthModal').style.display = 'flex'; 
         }
-               
- function checkAdminCredentials(e) {
-    if (e) e.preventDefault();
+       function checkAdminCredentials() {
     let inputLogin = document.getElementById('adminLogin').value;
     let inputPassword = document.getElementById('adminPassword').value;
 
-    db.collection("settings").get().then((querySnapshot) => {
+    const database = window.db || (typeof firebase !== 'undefined' ? firebase.firestore() : null);
+
+    if (!database) {
+        alert("Ошибка: Облачный сейф еще не успел загрузиться. Подождите секунду и попробуйте снова! ⏳");
+        return;
+    }
+
+    database.collection("settings").get().then((querySnapshot) => {
         let accessGranted = false;
         querySnapshot.forEach((doc) => {
             let data = doc.data();
@@ -1239,11 +1244,10 @@
         }
     }).catch((error) => {
         console.error("Ошибка сейфа: ", error);
-        alert("Ошибка связи с облаком! Проверьте интернет.");
+        alert("Ошибка связи с облаком! Проверьте интернет или настройки базы данных.");
     });
 }
-
-      
+               
         function openAdminForm(catId) {
             let customTitle = prompt("Введите название нового блюда:");
             if (customTitle) {
