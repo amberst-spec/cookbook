@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Интерактивная книга рецептов</title>
 
-           <meta charset="UTF-8">
-    <script>var db;</script>
+    <!-- 1. ПОДКЛЮЧАЕМ НАСТОЯЩИЕ БИБЛИОТЕКИ FIREBASE С СЕРВЕРОВ GOOGLE -->
     <script src="https://gstatic.com"></script>
     <script src="https://gstatic.com"></script>
+
+    <!-- 2. ИНИЦИАЛИЗИРУЕМ СЕЙФ С ПРАВИЛЬНЫМИ НАСТРОЙКАМИ -->
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
-            authDomain: "://firebaseapp.com",
+            apiKey: "AIzaSyBt1CLbX_hVTmYxR6ry8dIBfVGwt2OmMjM",
+            authDomain: "amberst-cookbook.firebaseapp.com",
             projectId: "amberst-cookbook",
             storageBucket: "amberst-cookbook.firebasestorage.app",
             messagingSenderId: "945091832932",
             appId: "1:945091832932:web:7cb9fc5627cb61dc958371"
         };
+
+        // Создаем глобальную переменную db, которую будет искать кнопка "Войти"
+        window.db = null;
+
         if (typeof firebase !== 'undefined') {
             firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
+            window.db = firebase.firestore();
+            console.log("Тест: База данных УСПЕШНО подключена глобально! 🌐");
+        } else {
+            console.error("Тест: Ошибка! Библиотеки Firebase не загрузились.");
         }
     </script>
   
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Интерактивная книга рецептов</title>
-
     <style>
 
                 /* Подключаем ваш красивый рукописный шрифт */
