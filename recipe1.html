@@ -1218,13 +1218,7 @@
     let inputLogin = document.getElementById('adminLogin').value;
     let inputPassword = document.getElementById('adminPassword').value;
 
-    const database = window.db || (typeof firebase !== 'undefined' ? firebase.firestore() : null);
-
-    if (!database) {
-        alert("Ошибка: Облачный сейф еще не успел загрузиться. Подождите секунду и попробуйте снова! ⏳");
-        return;
-    }
-
+    const database = db;
     database.collection("settings").get().then((querySnapshot) => {
         let accessGranted = false;
         querySnapshot.forEach((doc) => {
