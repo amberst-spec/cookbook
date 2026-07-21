@@ -1227,11 +1227,6 @@
     let inputLogin = document.getElementById('adminLogin').value;
     let inputPassword = document.getElementById('adminPassword').value;
 
-    if (typeof db === 'undefined') {
-        alert("Подождите пару секунд, облачный сейф еще загружается...");
-        return;
-    }
-
     db.collection("settings").get().then((querySnapshot) => {
         let accessGranted = false;
         querySnapshot.forEach((doc) => {
