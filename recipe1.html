@@ -1,29 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-
-        <script src="https://gstatic.com"></script>
+       <meta charset="UTF-8"><script>var db;</script>
+ <script src="https://gstatic.com"></script>
     <script src="https://gstatic.com"></script>
-
-    <script>
-        var db;
-        const firebaseConfig = {
-            apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
-            authDomain: "://firebaseapp.com",
-            projectId: "amberst-cookbook",
-            storageBucket: "amberst-cookbook.firebasestorage.app",
-            messagingSenderId: "945091832932",
-            appId: "1:945091832932:web:344718c74a543d8d958371"
-        };
-            if (typeof firebase !== 'undefined') {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
-        }
-
-    </script>
-
-       
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Интерактивная книга рецептов</title>
@@ -1299,4 +1280,24 @@
         
     </script>
 </body>
+  <script>
+    // Запуск базы данных в самом конце страницы, когда все библиотеки гарантированно загружены
+    const firebaseConfig = {
+        apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
+        authDomain: "://firebaseapp.com",
+        projectId: "amberst-cookbook",
+        storageBucket: "amberst-cookbook.firebasestorage.app",
+        messagingSenderId: "945091832932",
+        appId: "1:945091832932:web:344718c74a543d8d958371"
+    };
+
+    if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+        console.log("Тест: Переменная db успешно создана внизу файла!");
+    } else {
+        console.log("Тест: Критическая ошибка, Firebase не найден!");
+    }
+</script>
+  
 </html>
