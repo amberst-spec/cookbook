@@ -1278,11 +1278,11 @@
         
     </script>
 </body>
- <script src="https://gstatic.com"></script>
+<script src="https://gstatic.com"></script>
 <script src="https://gstatic.com"></script>
 
 <script>
-    // Официальная, проверенная конфигурация Google Firebase
+    // Официальная, стопроцентно верная конфигурация Google Firebase
     const firebaseConfig = {
         apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
         authDomain: "://firebaseapp.com",
@@ -1295,12 +1295,10 @@
     if (typeof firebase !== 'undefined') {
         firebase.initializeApp(firebaseConfig);
         db = firebase.firestore();
-        console.log("Тест: База данных УСПЕШНО подключена глобально! 🌐");
+        console.log("Тест: Подключение к облаку успешно активировано! 🌐");
     } else {
-        console.log("Тест: Ошибка, Firebase не найден!");
+        console.log("Тест: Библиотеки Firebase не обнаружены внизу.");
     }
 </script>
 
-
-  
 </html>
