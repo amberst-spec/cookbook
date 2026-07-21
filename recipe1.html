@@ -1216,7 +1216,7 @@
             document.getElementById('adminAuthModal').style.display = 'flex'; 
         }
                
-         function checkAdminCredentials(e) {
+ function checkAdminCredentials(e) {
     if (e) e.preventDefault();
     let inputLogin = document.getElementById('adminLogin').value;
     let inputPassword = document.getElementById('adminPassword').value;
@@ -1242,6 +1242,7 @@
         alert("Ошибка связи с облаком! Проверьте интернет.");
     });
 }
+
       
         function openAdminForm(catId) {
             let customTitle = prompt("Введите название нового блюда:");
