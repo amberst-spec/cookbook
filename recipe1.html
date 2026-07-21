@@ -957,11 +957,12 @@
         }
 
                 // 💾 ИСПРАВЛЕННАЯ НАМЕРТВО КНОПКА СОХРАНЕНИЯ КОНСТРУКТОРА СТРОК
-        function saveCurrentRecipeFromScreen() {
+       function saveCurrentRecipeFromScreen() {
     let typedTitle = document.getElementById("recipe-display-title").innerText.trim();
     let typedSteps = document.getElementById("recipe-display-steps").innerText;
 
     if (!typedTitle) { alert("Пожалуйста, введите название блюда! 🍳"); return; }
+
 
     if (typeof db === 'undefined') {
         alert("Облако еще загружается, подождите секунду...");
