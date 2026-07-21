@@ -2,8 +2,6 @@
 <html lang="ru">
 <head>
        <meta charset="UTF-8"><script>var db;</script>
- <script src="https://gstatic.com"></script>
-    <script src="https://gstatic.com"></script>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -1280,38 +1278,29 @@
         
     </script>
 </body>
- <script>
-    // Автоматический шпионский инжектор библиотек Google Firebase
-    (function loadFirebaseDynamic() {
-        const appScript = document.createElement('script');
-        appScript.src = "https://gstatic.com";
-        
-        appScript.onload = () => {
-            const dbScript = document.createElement('script');
-            dbScript.src = "https://gstatic.com";
-            
-            dbScript.onload = () => {
-                // Как только оба файла железно скачались, запускаем конфигурацию
-                const firebaseConfig = {
-                    apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
-                    authDomain: "://firebaseapp.com",
-                    projectId: "amberst-cookbook",
-                    storageBucket: "amberst-cookbook.firebasestorage.app",
-                    messagingSenderId: "945091832932",
-                    appId: "1:945091832932:web:344718c74a543d8d958371"
-                };
-                
-                if (typeof firebase !== 'undefined') {
-                    firebase.initializeApp(firebaseConfig);
-                    window.db = firebase.firestore();
-                    console.log("Тест: База данных УСПЕШНО подключена и активирована глобально! 🌐");
-                }
-            };
-            document.head.appendChild(dbScript);
-        };
-        document.head.appendChild(appScript);
-    })();
+ <script src="https://gstatic.com"></script>
+<script src="https://gstatic.com"></script>
+
+<script>
+    // Официальная, проверенная конфигурация Google Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
+        authDomain: "://firebaseapp.com",
+        projectId: "amberst-cookbook",
+        storageBucket: "amberst-cookbook.firebasestorage.app",
+        messagingSenderId: "945091832932",
+        appId: "1:945091832932:web:7cb9fc5627cb61dc958371"
+    };
+
+    if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.firestore();
+        console.log("Тест: База данных УСПЕШНО подключена глобально! 🌐");
+    } else {
+        console.log("Тест: Ошибка, Firebase не найден!");
+    }
 </script>
+
 
   
 </html>
