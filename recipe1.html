@@ -971,13 +971,7 @@
             let typedSteps = document.getElementById("recipe-display-steps").innerText;
    
     if (!typedTitle) { alert("Пожалуйста, введите название блюда! 🍳"); return; }
-
-    if (typeof db === 'undefined') {
-        alert("Облако еще загружается, подождите секунду...");
-        return;
-    }
-
-           
+   
             // Собираем все интерактивные линованные строчки ингредиентов с экрана
             let collectedIngredients = [];
             const listContainer = document.getElementById("recipe-ingredients-list-container");
