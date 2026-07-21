@@ -2,35 +2,29 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Интерактивная книга рецептов</title>
-
-    <!-- 1. ПОДКЛЮЧАЕМ НАСТОЯЩИЕ БИБЛИОТЕКИ FIREBASE С СЕРВЕРОВ GOOGLE -->
+    
+    <script>var db;</script>
     <script src="https://gstatic.com"></script>
     <script src="https://gstatic.com"></script>
-
-    <!-- 2. ИНИЦИАЛИЗИРУЕМ СЕЙФ С ПРАВИЛЬНЫМИ НАСТРОЙКАМИ -->
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyBt1CLbX_hVTmYxR6ry8dIBfVGwt2OmMjM",
+            apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
             authDomain: "://firebaseapp.com",
             projectId: "amberst-cookbook",
             storageBucket: "amberst-cookbook.firebasestorage.app",
             messagingSenderId: "945091832932",
             appId: "1:945091832932:web:7cb9fc5627cb61dc958371"
         };
-
-        // Создаем глобальную переменную db, которую будет искать кнопка "Войти"
-        window.db = null;
-
         if (typeof firebase !== 'undefined') {
             firebase.initializeApp(firebaseConfig);
-            window.db = firebase.firestore();
-            console.log("Тест: База данных УСПЕШНО подключена глобально! 🌐");
-        } else {
-            console.error("Тест: Ошибка! Библиотеки Firebase не загрузились.");
+            db = firebase.firestore();
         }
     </script>
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
 
                 /* Подключаем ваш красивый рукописный шрифт */
         @font-face {
