@@ -7,7 +7,7 @@
     <!-- Firebase Firestore (the Database SDK) -->
     <script src="https://gstatic.com"></script>
 
-    
+
     <script src="https://gstatic.com"></script>
 <script src="https://gstatic.com"></script>
 
@@ -957,18 +957,11 @@
         }
 
                 // 💾 ИСПРАВЛЕННАЯ НАМЕРТВО КНОПКА СОХРАНЕНИЯ КОНСТРУКТОРА СТРОК
-       function saveCurrentRecipeFromScreen() {
-    let typedTitle = document.getElementById("recipe-display-title").innerText.trim();
-    let typedSteps = document.getElementById("recipe-display-steps").innerText;
+        function saveCurrentRecipeFromScreen() {
+            let typedTitle = document.getElementById("recipe-display-title").innerText.trim();
+            let typedSteps = document.getElementById("recipe-display-steps").innerText;
 
-    if (!typedTitle) { alert("Пожалуйста, введите название блюда! 🌸"); return; }
-
-
-    if (typeof db === 'undefined') {
-        alert("Облако еще загружается, подождите секунду...");
-        return;
-    }
-
+            if (!typedTitle) { alert("Пожалуйста, введите название блюда! 🌸"); return; }
 
             // Собираем все интерактивные линованные строчки ингредиентов с экрана
             let collectedIngredients = [];
@@ -1214,6 +1207,14 @@
             document.getElementById('adminAuthModal').style.display = 'flex'; 
         }
 
+        function checkAdminCredentials() { 
+            if (document.getElementById('adminLogin').value === 'Denys25' && document.getElementById('adminPassword').value === '3567wry16ZXC') { 
+                alert('Доступ разрешен! 🌸'); 
+                isAdminModeActive = true; // 👑 ВОТ ЭТА СТРОЧКА ТЕПЕРЬ ВКЛЮЧАЕТ АДМИНКУ НА ВСЕМ САЙТЕ!
+                document.getElementById('helenAdminPanel').style.display = 'block'; 
+            } else { 
+                alert('Доступ закрыт! 🛑'); 
+            } 
        function checkAdminCredentials(e) {
     if (e) e.preventDefault();
     let inputLogin = document.getElementById('admin').value;
@@ -1301,7 +1302,7 @@
             firebase.initializeApp(firebaseConfig);
             db = firebase.firestore();
         }
- 
+
     </script>
 </body>
 </html>
