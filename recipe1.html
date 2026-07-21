@@ -1280,24 +1280,38 @@
         
     </script>
 </body>
-  <script>
-    // Запуск базы данных в самом конце страницы, когда все библиотеки гарантированно загружены
-    const firebaseConfig = {
-        apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
-        authDomain: "://firebaseapp.com",
-        projectId: "amberst-cookbook",
-        storageBucket: "amberst-cookbook.firebasestorage.app",
-        messagingSenderId: "945091832932",
-        appId: "1:945091832932:web:344718c74a543d8d958371"
-    };
-
-    if (typeof firebase !== 'undefined') {
-        firebase.initializeApp(firebaseConfig);
-        db = firebase.firestore();
-        console.log("Тест: Переменная db успешно создана внизу файла!");
-    } else {
-        console.log("Тест: Критическая ошибка, Firebase не найден!");
-    }
+ <script>
+    // Автоматический шпионский инжектор библиотек Google Firebase
+    (function loadFirebaseDynamic() {
+        const appScript = document.createElement('script');
+        appScript.src = "https://gstatic.com";
+        
+        appScript.onload = () => {
+            const dbScript = document.createElement('script');
+            dbScript.src = "https://gstatic.com";
+            
+            dbScript.onload = () => {
+                // Как только оба файла железно скачались, запускаем конфигурацию
+                const firebaseConfig = {
+                    apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
+                    authDomain: "://firebaseapp.com",
+                    projectId: "amberst-cookbook",
+                    storageBucket: "amberst-cookbook.firebasestorage.app",
+                    messagingSenderId: "945091832932",
+                    appId: "1:945091832932:web:344718c74a543d8d958371"
+                };
+                
+                if (typeof firebase !== 'undefined') {
+                    firebase.initializeApp(firebaseConfig);
+                    window.db = firebase.firestore();
+                    console.log("Тест: База данных УСПЕШНО подключена и активирована глобально! 🌐");
+                }
+            };
+            document.head.appendChild(dbScript);
+        };
+        document.head.appendChild(appScript);
+    })();
 </script>
+
   
 </html>
