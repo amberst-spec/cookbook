@@ -1282,7 +1282,7 @@
 <script src="https://gstatic.com"></script>
 
 <script>
-    // Официальная, стопроцентно верная конфигурация Google Firebase
+    // Единый монолитный блок: сначала строго грузятся библиотеки, затем ключ
     const firebaseConfig = {
         apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
         authDomain: "://firebaseapp.com",
@@ -1295,10 +1295,11 @@
     if (typeof firebase !== 'undefined') {
         firebase.initializeApp(firebaseConfig);
         db = firebase.firestore();
-        console.log("Тест: Подключение к облаку успешно активировано! 🌐");
+        console.log("Тест: База данных УСПЕШНО подключена глобально! 🌐");
     } else {
-        console.log("Тест: Библиотеки Firebase не обнаружены внизу.");
+        console.log("Тест: Ошибка, Firebase всё ещё не найден.");
     }
 </script>
+
 
 </html>
