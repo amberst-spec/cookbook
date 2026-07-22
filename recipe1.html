@@ -1204,7 +1204,7 @@
     let inputLogin = document.getElementById('adminLogin').value;
     let inputPassword = document.getElementById('adminPassword').value;
 
-    const database = window.db || db;
+    const database = window.db || db || (typeof firebase !== 'undefined' ? firebase.firestore() : null);
 
     database.collection("settings").get().then((querySnapshot) => {
         let accessGranted = false;
