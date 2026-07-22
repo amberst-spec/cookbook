@@ -1214,11 +1214,12 @@
             document.getElementById('adminPassword').value = ''; 
             document.getElementById('adminAuthModal').style.display = 'flex'; 
         }
-       function checkAdminCredentials() {
+      function checkAdminCredentials() {
     let inputLogin = document.getElementById('adminLogin').value;
     let inputPassword = document.getElementById('adminPassword').value;
 
     const database = db;
+
     database.collection("settings").get().then((querySnapshot) => {
         let accessGranted = false;
         querySnapshot.forEach((doc) => {
@@ -1232,14 +1233,16 @@
             alert("Доступ разрешен! Добро пожаловать, Хозяйка! 👑");
             isAdminModeActive = true; 
             document.getElementById('helenAdminPanel').style.display = 'block';
+            document.getElementById('adminAuthModal').style.display = 'none';
         } else {
             alert("Неверный логин или пароль! Доступ закрыт. ⛔");
         }
     }).catch((error) => {
         console.error("Ошибка сейфа: ", error);
-        alert("Ошибка связи с облаком! Проверьте интернет или настройки базы данных.");
+        alert("Ошибка связи с облаком! Проверьте интернет.");
     });
 }
+
                
         function openAdminForm(catId) {
             let customTitle = prompt("Введите название нового блюда:");
