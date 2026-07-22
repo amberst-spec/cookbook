@@ -1218,7 +1218,7 @@
     let inputLogin = document.getElementById('adminLogin').value;
     let inputPassword = document.getElementById('adminPassword').value;
 
-    const database = db;
+     const database = window.db || db;
 
     database.collection("settings").get().then((querySnapshot) => {
         let accessGranted = false;
