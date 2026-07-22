@@ -1218,7 +1218,13 @@
     let inputLogin = document.getElementById('adminLogin').value;
     let inputPassword = document.getElementById('adminPassword').value;
 
-     const database = window.db || db;
+    // Проверяем все возможные глобальные ячейки базы данных
+    const database = window.db || db || (typeof firebase !== 'undefined' ? firebase.firestore() : null);
+
+    if (!database) {
+        alert("Облачный сейф ещё загружается в памяти ноутбука. Подождите 3 секунды и нажмите снова! ⏳");
+        return;
+    }
 
     database.collection("settings").get().then((querySnapshot) => {
         let accessGranted = false;
