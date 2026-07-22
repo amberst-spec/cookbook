@@ -7,21 +7,7 @@
     <script>var db;</script>
     <script src="https://gstatic.com"></script>
     <script src="https://gstatic.com"></script>
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
-            authDomain: "://firebaseapp.com",
-            projectId: "amberst-cookbook",
-            storageBucket: "amberst-cookbook.firebasestorage.app",
-            messagingSenderId: "945091832932",
-            appId: "1:945091832932:web:7cb9fc5627cb61dc958371"
-        };
-        if (typeof firebase !== 'undefined') {
-            firebase.initializeApp(firebaseConfig);
-            db = firebase.firestore();
-        }
-    </script>
-  
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
@@ -1289,7 +1275,22 @@
         function runSearch() { alert(translations[currentLangCode].alertSearch); }
         
     </script>
-
+        <script>
+        // Инициализируем базу данных в самом конце файла, когда всё точно загрузилось
+        const firebaseConfig = {
+            apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
+            authDomain: "://firebaseapp.com",
+            projectId: "amberst-cookbook",
+            storageBucket: "amberst-cookbook.firebasestorage.app",
+            messagingSenderId: "945091832932",
+            appId: "1:945091832932:web:344718c74a543d8d958371"
+        };
+        if (typeof firebase !== 'undefined') {
+            firebase.initializeApp(firebaseConfig);
+            window.db = firebase.firestore();
+        }
+    </script>
+    
 
 </body>
 </html>
