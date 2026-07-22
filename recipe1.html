@@ -1200,11 +1200,11 @@
             document.getElementById('adminPassword').value = ''; 
             document.getElementById('adminAuthModal').style.display = 'flex'; 
         }
-     function checkAdminCredentials() {
+    function checkAdminCredentials() {
     let inputLogin = document.getElementById('adminLogin').value;
     let inputPassword = document.getElementById('adminPassword').value;
 
-   const database = window.db || db;
+    const database = window.db || db;
 
     database.collection("settings").get().then((querySnapshot) => {
         let accessGranted = false;
