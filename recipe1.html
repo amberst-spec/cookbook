@@ -1269,22 +1269,27 @@
         function runSearch() { alert(translations[currentLangCode].alertSearch); }
         
     </script>
-        <script>
-        // Инициализируем базу данных в самом конце файла, когда всё точно загрузилось
-        const firebaseConfig = {
-            apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
-            authDomain: "://firebaseapp.com",
-            projectId: "amberst-cookbook",
-            storageBucket: "amberst-cookbook.firebasestorage.app",
-            messagingSenderId: "945091832932",
-            appId: "1:945091832932:web:344718c74a543d8d958371"
-        };
-        if (typeof firebase !== 'undefined') {
+       <script>
+    // Официальная, стопроцентно верная конфигурация Google Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyBtlCLBx_hVTmYxR6ry8dIBfvGWt2OmMjM",
+        authDomain: "://firebaseapp.com",
+        projectId: "amberst-cookbook",
+        storageBucket: "amberst-cookbook.firebasestorage.app",
+        messagingSenderId: "945091832932",
+        appId: "1:945091832932:web:7cb9fc5627cb61dc958371"
+    };
+
+    if (typeof firebase !== 'undefined') {
+        try {
             firebase.initializeApp(firebaseConfig);
             window.db = firebase.firestore();
+            console.log("Ура! База данных успешно подключена глобально! 🌐");
+        } catch (e) {
+            console.error("Ошибка инициализации Firebase: ", e);
         }
-    </script>
-    
+    }
+</script>
 
 </body>
 </html>
